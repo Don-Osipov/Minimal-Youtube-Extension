@@ -1,27 +1,3 @@
-// chrome.runtime.onMessage.addListener(function (request) {
-//   if (request.action === 'toggleSidebar') {
-//     console.log('sideToggled');
-//     const secondary = document.querySelector('#secondary');
-//     if (secondary.style.display === 'none') {
-//       secondary.style.display = 'block';
-//     } else {
-//       secondary.style.display = 'none';
-//     }
-//     // document.querySelector('#related').classList.toggle('hideSectionMinimal');
-//   }
-//   if (request.action === 'toggleEndScreen') {
-//     //   document
-//     //     .querySelector('.ytp-endscreen-content')
-//     //     .classList.toggle('hideSectionMinimal');
-//     console.log('endToggled');
-//   }
-//   console.log(request);
-// });
-
-// chrome.runtime.onMessage.addListener(function (request) {
-//   console.log(request);
-// });
-
 chrome.runtime.onMessage.addListener(function (request) {
   const sidebar = document.querySelector('#secondary');
   const endScreen = document.querySelector('.ytp-endscreen-content');
@@ -44,70 +20,6 @@ chrome.runtime.onMessage.addListener(function (request) {
   console.log(request);
 });
 
-// if (document.readyState === 'loading') {
-//   document.addEventListener('DOMContentLoaded', afterDOMLoaded);
-// } else {
-//   afterDOMLoaded();
-// }
-
-// function afterDOMLoaded() {
-//   console.log('loaded');
-//   chrome.storage.sync.get(['sidebar', 'endScreen', 'recommended'], function (
-//     result
-//   ) {
-//     const sidebar = document.querySelector('#secondary');
-//     const endScreen = document.querySelector('.ytp-endscreen-content');
-//     const recommended = document.querySelector('#primary');
-//     console.log('initial test');
-//     console.log(sidebar);
-//     console.log(endScreen);
-//     console.log(recommended);
-//     console.log(`result = ${result.recommended}`);
-
-//     setDisplay(sidebar, result.sidebar, 1);
-//     setDisplay(endScreen, result.endScreen, 2);
-//     setDisplay(recommended, result.recommended, 3);
-
-//     // if (result.recommended) {
-//     //   recommended.style.display = 'none';
-//     //   console.log('recommended none');
-//     // } else {
-//     //   recommended.style.display = 'block';
-//     //   console.log('recommended block');
-//     // }
-//     //
-//     // if (result.sidebar) {
-//     //   sidebar.style.display = 'none';
-//     //   console.log('sidebar none');
-//     // } else {
-//     //   sidebar.style.display = 'block';
-//     //   console.log('sidebar block');
-//     //
-//     // }
-//     // if (result.endScreen) {
-//     //   endScreen.style.display = 'none';
-//     //   console.log('endScreen none');
-//     //
-//     // } else {
-//     //   endScreen.style.display = 'block';
-//     //   console.log('endScren block');
-//     //
-//     // }
-//   });
-// }
-
-// function setDisplay(element, checked, test) {
-//   console.log(test);
-//   if (element) {
-//     if (checked) {
-//       element.style.display = 'none';
-//       console.log('displaying none ' + test);
-//       return;
-//     }
-//     element.style.display = 'block';
-//     console.log('displaying block ' + test);
-//   }
-// }
 var elemParent = document.body; /* or whatever */
 
 const url = window.location.href;
