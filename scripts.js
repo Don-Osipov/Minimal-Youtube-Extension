@@ -1,71 +1,142 @@
 chrome.runtime.onMessage.addListener(function (request) {
-  const sidebar = document.querySelector('#secondary');
+  const related = document.querySelector('#secondary');
+  const relatedRecommended = document.querySelector('#related');
+  const relatedLiveChat = document.querySelector('#chat');
+  const relatedPlaylist = document.querySelector('#playlist');
   const endScreen = document.querySelector('.ytp-endscreen-content');
   const recommended = document.querySelector('#primary');
-  if (request[0] === 'sidebar') {
-    console.log('sidebar');
+  const videoInfo = document.querySelector('#primary');
+  const videoButtons = document.querySelector('#menu-container');
+  const videoDescription = document.querySelector('#meta');
+  const comments = document.querySelector(`#sections`);
+  const elements = [
+    related,
+    relatedRecommended,
+    relatedLiveChat,
+    relatedPlaylist,
+    endScreen,
+    recommended,
+    videoInfo,
+    videoButtons,
+    videoDescription,
+    comments,
+  ];
+  const elName = request[0];
+  const toDisplay = request[1];
 
-    displayOnMessage(sidebar, request[1]);
+  if (elName === 'related') {
+    displayOnMessage(related, toDisplay);
   }
-  if (request[0] === 'endScreen') {
-    console.log('endscreen');
-
-    displayOnMessage(endScreen, request[1]);
+  if (elName === 'relatedRecommended') {
+    displayOnMessage(relatedRecommended, toDisplay);
   }
-  if (request[0] === 'recommended') {
-    console.log('recommended');
-
-    displayOnMessage(recommended, request[1]);
+  if (elName === 'relatedLiveChat') {
+    displayOnMessage(relatedLiveChat, toDisplay);
+  }
+  if (elName === 'relatedPlaylist') {
+    displayOnMessage(relatedPlaylist, toDisplay);
+  }
+  if (elName === 'endScreen') {
+    displayOnMessage(endScreen, toDisplay);
+  }
+  if (elName === 'recommended') {
+    displayOnMessage(recommended, toDisplay);
+  }
+  if (elName === 'videoInfo') {
+    displayOnMessage(videoInfo, toDisplay);
+  }
+  if (elName === 'videoButtons') {
+    displayOnMessage(videoButtons, toDisplay);
+  }
+  if (elName === 'videoDescription') {
+    displayOnMessage(videoDescription, toDisplay);
+  }
+  if (elName === 'comments') {
+    displayOnMessage(comments, toDisplay);
   }
   console.log(request);
 });
 
-var elemParent = document.body; /* or whatever */
+let elemParent = document.body; /* or whatever */
 
 const url = window.location.href;
 console.log(url);
 
 const regex = new RegExp('^(http(s)?://)?((w){3}.)?youtu(be|.be)?(.com)?/.+');
-let tested = [false, false, false];
+let tested = 0;
 
 if (regex.test(url)) {
-  deletor(true);
+  deleter(true);
 } else {
-  deletor(false);
+  deleter(false);
 }
 
-function deletor(regexPass) {
-  chrome.storage.sync.get(['sidebar', 'endScreen', 'recommended'], (result) => {
-    var observer = new MutationObserver(function (mutations) {
-      mutations.forEach(function (mutation) {
-        if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-          var node1 = mutation.target.querySelector('#secondary');
-          var node2 = mutation.target.querySelector('#primary');
-          var node3 = mutation.target.querySelector('.ytp-endscreen-content');
+function deleter(regexPass) {
+  chrome.storage.sync.get(
+    [
+      'related',
+      'endScreen',
+      'recommended',
+      'relatedRecommended',
+      'relatedPlaylist',
+      'relatedLiveChat',
+      'videoInfo',
+      'videoButtons',
+      'videoDescription',
+      'comments',
+    ],
+    (result) => {
+      let observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+            const related = mutation.target.querySelector('#secondary');
+            const relatedRecommended = mutation.target.querySelector(
+              '#related'
+            );
+            const relatedLiveChat = mutation.target.querySelector('#chat');
+            const relatedPlaylist = mutation.target.querySelector('#playlist');
+            const recommended = mutation.target.querySelector('#primary');
+            const endScreen = mutation.target.querySelector(
+              '.ytp-endscreen-content'
+            );
+            const videoInfo = mutation.target.querySelector('primary');
+            const videoButtons = mutation.target.querySelector(
+              '#menu-container'
+            );
+            const videoDescription = document.querySelector('#meta');
+            const comments = mutation.target.querySelector('#sections');
 
-          if (regexPass) {
-            display(node1, result.sidebar, 1);
-            display(node3, result.endScreen, 3);
-          } else {
-            display(node2, result.recommended, 2);
+            if (regexPass) {
+              display(related, result.related);
+              display(relatedRecommended, result.relatedRecommended);
+              display(relatedLiveChat, result.relatedLiveChat);
+              display(relatedPlaylist, result.relatedPlaylist);
+              display(endScreen, result.endScreen);
+              display(comments, result.comments);
+              display(videoInfo, result.videoInfo);
+              display(videoButtons, result.videoButtons);
+              display(videoDescription, result.videoDescription);
+            } else {
+              display(recommended, result.recommended);
+            }
+            if (tested === 7) {
+              observer.disconnect();
+            }
           }
-          if (tested.every((e) => e === true)) {
-            observer.disconnect();
-          }
-        }
+        });
       });
-    });
 
-    observer.observe(elemParent, {
-      childList: true,
-      subtree: true,
-    });
-  });
+      observer.observe(elemParent, {
+        childList: true,
+        subtree: true,
+      });
+    }
+  );
 }
 
-function display(selector, checkboxVal, index) {
+function display(selector, checkboxVal) {
   console.log(selector, checkboxVal);
-  tested[index] = true;
+  tested++;
 
   if (selector && checkboxVal === true) {
     selector.style.display = 'none';

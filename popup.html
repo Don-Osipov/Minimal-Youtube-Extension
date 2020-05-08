@@ -41,7 +41,7 @@
         display: flex;
         align-items: center;
       }
-      .list-items label {
+      label {
         font-size: 16px;
         color: #4d4d4d;
         position: absolute;
@@ -49,20 +49,20 @@
         padding-left: 20px;
         cursor: pointer;
       }
-      .list-items input {
+      input {
         opacity: 0;
         visibility: hidden;
         position: absolute;
       }
-      .list-items input:checked ~ .check {
+      input:checked ~ .check {
         border-color: #00ea90;
         box-shadow: 0px 0px 0px 15px #00ea90 inset;
       }
-      .list-items input:checked ~ .check::after {
+      input:checked ~ .check::after {
         opacity: 1;
         /* transform: scale(1); */
       }
-      .list-items .check {
+      .check {
         width: 10px;
         height: 10px;
         display: flex;
@@ -75,7 +75,7 @@
         box-shadow: 0px 0px 0px 0px #00ea90 inset;
         /* transition: all 0.15s cubic-bezier(0, 1.05, 0.72, 1.07); */
       }
-      .list-items .check::after {
+      .check::after {
         content: '';
         width: 100%;
         height: 100%;
@@ -98,31 +98,61 @@
     </header>
     <div class="options">
       <ul class="options__list">
-        <!-- <li class="options__list--items">
-          <input type="checkbox" id="sidebar" />
-          <span class="check"></span>
-          <label for="sidebar">Hide Sidebar</label>
-        </li>
-        <li class="options__list--items">
-          <input type="checkbox" id="endScreen" />
-          <span class="check"></span>
-          <label for="endScreen">Hide Endscreen Videowall</label>
-        </li> -->
         <li class="list-items">
-          <input id="sidebar" type="checkbox" />
+          <input id="recommended" type="checkbox" />
           <span class="check"></span>
-          <label for="sidebar">Hide Sidebar</label>
+          <label for="recommended">Hide Homescreen Feed</label>
         </li>
+        <li class="list-items">
+          <input id="related" type="checkbox" />
+          <span class="check"></span>
+          <label for="related">Hide Related Videos</label>
+        </li>
+        <ul class="related-items">
+          <li class="list-items">
+            <input id="relatedRecommended" type="checkbox" />
+            <span class="check"></span>
+            <label for="relatedRecommended">Hide Recommended</label>
+          </li>
+          <li class="list-items">
+            <input id="relatedLiveChat" type="checkbox" />
+            <span class="check"></span>
+            <label for="relatedLiveChat">Hide Live Chat</label>
+          </li>
+          <li class="list-items">
+            <input id="relatedPlaylist" type="checkbox" />
+            <span class="check"></span>
+            <label for="relatedPlaylist">Hide Playlist</label>
+          </li>
+        </ul>
         <li class="list-items">
           <input id="endScreen" type="checkbox" />
           <span class="check"></span>
           <label for="endScreen">Hide Endscreen Videowall</label>
         </li>
+
         <li class="list-items">
-          <input id="recommended" type="checkbox" />
+          <input id="videoInfo" type="checkbox" />
           <span class="check"></span>
-          <label for="recommended">Hide Recommended</label>
+          <label for="videoInfo">Hide Video Info</label>
         </li>
+        <ul class="sidebar-items">
+          <li class="list-items">
+            <input id="videoButtons" type="checkbox" />
+            <span class="check"></span>
+            <label for="videoButtons">Hide Video Menu</label>
+          </li>
+          <li class="list-items">
+            <input id="videoDescription" type="checkbox" />
+            <span class="check"></span>
+            <label for="videoDescription">Hide Profile and Description</label>
+          </li>
+          <li class="list-items">
+            <input id="comments" type="checkbox" />
+            <span class="check"></span>
+            <label for="comments">Hide Comments</label>
+          </li>
+        </ul>
       </ul>
     </div>
   </body>
