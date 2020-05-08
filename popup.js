@@ -1,39 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const recommended = document.querySelector(`#recommended`);
   const related = document.querySelector(`#related`);
   const relatedRecommended = document.querySelector('#relatedRecommended');
   const relatedLiveChat = document.querySelector('#relatedLiveChat');
   const relatedPlaylist = document.querySelector('#relatedPlaylist');
   const endScreen = document.querySelector(`#endScreen`);
-  const recommended = document.querySelector(`#recommended`);
   const videoInfo = document.querySelector('#videoInfo');
   const videoButtons = document.querySelector('#videoButtons');
   const videoDescription = document.querySelector('#videoDescription');
   const comments = document.querySelector(`#comments`);
+  const sidebar = document.querySelector(`#sidebar`);
+  // const subscriptions = document.querySelector(`#subscriptions`);
 
   let elements = {
+    recommended: recommended,
     related: related,
     relatedRecommended: relatedRecommended,
     relatedLiveChat: relatedLiveChat,
     relatedPlaylist: relatedPlaylist,
     endScreen: endScreen,
-    recommended: recommended,
     videoInfo: videoInfo,
     videoButtons: videoButtons,
     videoDescription: videoDescription,
     comments: comments,
+    sidebar: sidebar,
+    // subscriptions: subscriptions,
   };
 
   chrome.storage.sync.get(Object.keys(elements), (result) => {
+    checkChanger(recommended, result.recommended);
     checkChanger(related, result.related);
     checkChanger(relatedRecommended, result.relatedRecommended);
     checkChanger(relatedLiveChat, result.relatedLiveChat);
     checkChanger(relatedPlaylist, result.relatedPlaylist);
     checkChanger(endScreen, result.endScreen);
-    checkChanger(recommended, result.recommended);
-    checkChanger(comments, result.comments);
     checkChanger(videoInfo, result.videoInfo);
     checkChanger(videoButtons, result.videoButtons);
     checkChanger(videoDescription, result.videoDescription);
+    checkChanger(comments, result.comments);
+    checkChanger(sidebar, result.sidebar);
+    // checkChanger(subscriptions, result.subscriptions);
   });
 
   // runs addChangeEvent on all elements
