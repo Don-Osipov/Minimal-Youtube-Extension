@@ -57,18 +57,21 @@ chrome.runtime.onMessage.addListener(function (request) {
 let elemParent = document.body; /* or whatever */
 let tested = 0;
 
-// const url = window.location.href;
-// console.log(url);
+const url = window.location.href;
 
-// const regex = new RegExp('^(http(s)?://)?((w){3}.)?youtu(be|.be)?(.com)?/.+');
-
-// if (regex.test(url)) {
-//   deleter(true);
-// } else {
-//   deleter(false);
-// }
-
+const regex = new RegExp('^(http(s)?://)?((w){3}.)?youtu(be|.be)?(.com)?/.+');
+let video = false;
+if (regex.test(url)) {
+  video = true;
+} else {
+  video = false;
+}
+console.log(video);
 // function deleter(regexPass) {
+
+
+
+
 chrome.storage.sync.get(
   [
     'recommended',
@@ -85,42 +88,50 @@ chrome.storage.sync.get(
     // 'subscriptions',
   ],
   (result) => {
-    let observer = new MutationObserver(function (mutations) {
+    observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-          const recommended = mutation.target.querySelector('#page-manager');
-          const related = mutation.target.querySelector('#secondary');
-          const relatedRecommended = mutation.target.querySelector('#related');
-          const relatedLiveChat = mutation.target.querySelector('#chat');
-          const relatedPlaylist = mutation.target.querySelector('#playlist');
-          const endScreen = mutation.target.querySelector(
-            '.ytp-endscreen-content'
-          );
-          const videoInfo = mutation.target.querySelector('primary');
-          const videoButtons = mutation.target.querySelector('#menu-container');
-          const videoDescription = document.querySelector('#meta');
-          const comments = mutation.target.querySelector('#sections');
-          const sidebar = mutation.target.querySelector(`#guide`);
-          // const subscriptions = document.querySelector(`#items`).parentElement;
+          if (video === false ){
+            const recommended = mutation.target.querySelector('#page-manager');
+            display(recommended, result.recommended);
+            if (tested === 1) {
+              observer.disconnect();
+              console.log('DISCONNECTED');
+            }
+          } else {
+            const related = mutation.target.querySelector('#secondary');
+            const relatedRecommended = mutation.target.querySelector('#related');
+            const relatedLiveChat = mutation.target.querySelector('#chat');
+            const relatedPlaylist = mutation.target.querySelector('#playlist');
+            const endScreen = mutation.target.querySelector(
+              '.ytp-endscreen-content'
+            );
+            const videoInfo = mutation.target.querySelector('primary');
+            const videoButtons = mutation.target.querySelector('#menu-container');
+            const videoDescription = document.querySelector('#meta');
+            const comments = mutation.target.querySelector('#sections');
+            const sidebar = mutation.target.querySelector(`#guide`);
+            // console.log(recommended);
+            // const subscriptions = document.querySelector(`#items`).parentElement;
 
-          // if (regexPass) {
-          display(recommended, result.recommended);
-          display(related, result.related);
-          display(relatedRecommended, result.relatedRecommended);
-          display(relatedLiveChat, result.relatedLiveChat);
-          display(relatedPlaylist, result.relatedPlaylist);
-          display(endScreen, result.endScreen);
-          display(comments, result.comments);
-          display(videoInfo, result.videoInfo);
-          display(videoButtons, result.videoButtons);
-          display(videoDescription, result.videoDescription);
-          // } else {
-          // }
-          display(sidebar, result.sidebar);
-          // display(subscriptions, result.subscriptions);
-          if (tested === 11) {
-            observer.disconnect();
+            display(related, result.related);
+            display(relatedRecommended, result.relatedRecommended);
+            display(relatedLiveChat, result.relatedLiveChat);
+            display(relatedPlaylist, result.relatedPlaylist);
+            display(endScreen, result.endScreen);
+            display(comments, result.comments);
+            display(videoInfo, result.videoInfo);
+            display(videoButtons, result.videoButtons);
+            display(videoDescription, result.videoDescription);
+            display(sidebar, result.sidebar);
+            if (tested === 10) {
+              observer.disconnect();
+              console.log('DISCONNECTED');
+            }
           }
+
+          // display(subscriptions, result.subscriptions);
+
         }
       });
     });
@@ -129,15 +140,13 @@ chrome.storage.sync.get(
       childList: true,
       subtree: true,
     });
-  }
-);
-// }
+});
 
 function display(selector, checkboxVal) {
-  console.log(selector, checkboxVal);
-  tested++;
 
   if (selector && checkboxVal === true) {
+    tested++;
+    console.log(selector, checkboxVal);
     selector.style.display = 'none';
   }
 }
