@@ -69,9 +69,6 @@ if (regex.test(url)) {
 console.log(video);
 // function deleter(regexPass) {
 
-
-
-
 chrome.storage.sync.get(
   [
     'recommended',
@@ -88,10 +85,10 @@ chrome.storage.sync.get(
     // 'subscriptions',
   ],
   (result) => {
-    observer = new MutationObserver(function (mutations) {
-      mutations.forEach(function (mutation) {
+    observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-          if (video === false ){
+          if (video === false) {
             const recommended = mutation.target.querySelector('#page-manager');
             display(recommended, result.recommended);
             if (tested === 1) {
@@ -100,14 +97,18 @@ chrome.storage.sync.get(
             }
           } else {
             const related = mutation.target.querySelector('#secondary');
-            const relatedRecommended = mutation.target.querySelector('#related');
+            const relatedRecommended = mutation.target.querySelector(
+              '#related'
+            );
             const relatedLiveChat = mutation.target.querySelector('#chat');
             const relatedPlaylist = mutation.target.querySelector('#playlist');
             const endScreen = mutation.target.querySelector(
               '.ytp-endscreen-content'
             );
             const videoInfo = mutation.target.querySelector('primary');
-            const videoButtons = mutation.target.querySelector('#menu-container');
+            const videoButtons = mutation.target.querySelector(
+              '#menu-container'
+            );
             const videoDescription = document.querySelector('#meta');
             const comments = mutation.target.querySelector('#sections');
             const sidebar = mutation.target.querySelector(`#guide`);
@@ -131,7 +132,6 @@ chrome.storage.sync.get(
           }
 
           // display(subscriptions, result.subscriptions);
-
         }
       });
     });
@@ -140,14 +140,18 @@ chrome.storage.sync.get(
       childList: true,
       subtree: true,
     });
-});
+  }
+);
 
 function display(selector, checkboxVal) {
+  console.log(`tested ${selector}`);
 
-  if (selector && checkboxVal === true) {
+  if (selector) {
     tested++;
-    console.log(selector, checkboxVal);
-    selector.style.display = 'none';
+    if (checkboxVal === true) {
+      console.log(selector, checkboxVal);
+      selector.style.display = 'none';
+    }
   }
 }
 
